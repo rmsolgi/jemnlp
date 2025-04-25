@@ -19,7 +19,7 @@ DATA_DIR = '/data/jemnlp'
 COMPRESSION_CONFIG = 'svd_llm_llama_2_7b'
 TEMP_DIR = DATA_DIR
 COMPRESSED_DIR = DATA_DIR
-ratios = [0.5]
+ratios = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4]
 for ratio in ratios:
     print('ratio:', ratio)
     ############################################################################################
