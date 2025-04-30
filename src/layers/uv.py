@@ -104,9 +104,6 @@ class SVD_LLM(UVTemplate):
         else:
             use_bias=True
 
-        # with open(config.info_path, "rb") as f:
-        #     emp_cov_dict = pickle.load(f)
-        # emp_cov_mat = emp_cov_dict[config.layer_name]
         emp_cov_mat = config.covariance_matrix
 
         delta = utils.minimal_shift_to_pd(emp_cov_mat)

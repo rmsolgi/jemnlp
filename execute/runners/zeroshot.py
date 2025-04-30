@@ -8,25 +8,27 @@ import time
 from execute.setup import net_configs
 from execute.setup.lib.eval import eval_ppl, eval_zero_shot
 from transformers import LlamaTokenizer
+from src.network.utils import save_model_params
 ############################################################################################
 DO_COMPRESS = False
 EVAL = True
-SAVE = False
+SAVE = True
 ############################################################################################
-BASE_MODEL_NAME = 'llama_2_7b'
+# BASE_MODEL_NAME = 'llama_2_13b'
 DATA_DIR = '/data/jemnlp'
-COMPRESSION_CONFIG = 'svd_llm_llama_2_7b'
+COMPRESSION_CONFIG = 'svd_llm_mistral_7b'
 TEMP_DIR = DATA_DIR
 COMPRESSED_DIR = DATA_DIR
+model_name = "mistralai/Mistral-7B-v0.1"
+COV_NAME = 'mistral_7b_v01_wikitext'
 ratios = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4]
 for ratio in ratios:
     print('ratio:', ratio)
     ############################################################################################
-    init_model_path=os.path.join(DATA_DIR, BASE_MODEL_NAME)
     ############################################################################################
-    model_name = "meta-llama/Llama-2-7b-hf"
+    
     init_model = AutoModelForCausalLM.from_pretrained(model_name)
-    tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+    tokenizer = LlamaTokenizer.from_pretrained(model_name)
 
     total_params = sum(p.numel() for p in init_model.parameters())
     print(f"Total parameters of the base: {total_params:,}")
@@ -37,7 +39,7 @@ for ratio in ratios:
     ###########################################################################################
     #############################################################################################
     get_config = getattr(net_configs, COMPRESSION_CONFIG) 
-    info_path = os.path.join(DATA_DIR, 'cov_data', 'llama_2_7b_wikitext')
+    info_path = os.path.join(DATA_DIR, 'cov_data', COV_NAME)
     net_config=get_config(ratio, info_path)
     #############################################################################################
     #############################################################################################
@@ -62,6 +64,7 @@ for ratio in ratios:
         ppl_test = eval_ppl(new_model, tokenizer, new_model.device)
         print(f"wikitext perplexity {ppl_test}")
     if SAVE:
+        new_model = new_model.half()
         os.makedirs(compressed_model_dir, exist_ok=True)
         compressed_model_save_path = os.path.join(compressed_model_dir, 'model.pt')
         torch.save(new_model, compressed_model_save_path)
