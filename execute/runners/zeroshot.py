@@ -15,14 +15,14 @@ EVAL = False
 SAVE = False
 ############################################################################################
 # BASE_MODEL_NAME = 'llama_2_13b'
-DATA_DIR = '/data/jemnlp/alpaca'
-COMPRESSION_CONFIG = 'svd_llm_llama_2_13b'
+DATA_DIR = '/data/jemnlp/test'
+COMPRESSION_CONFIG = 'svd_llm_llama_2_7b'
 TEMP_DIR = DATA_DIR
 COMPRESSED_DIR = DATA_DIR
 # model_name = "mistralai/Mistral-7B-v0.1"
-model_name = "meta-llama/Llama-2-13b-hf"
-COV_NAME = 'llama_2_13b_alpaca'
-ratios = [0.9, 0.8, 0.7, 0.6, 0.5] #should repeat 90 mistral_wikitext
+model_name = "meta-llama/Llama-2-7b-hf"
+COV_NAME = 'llama_2_7b_alpaca'
+ratios = [0.9] #[0.9, 0.8, 0.7, 0.6, 0.5] #should repeat 90 mistral_wikitext
 for ratio in ratios:
     print('ratio:', ratio)
     ############################################################################################

@@ -103,12 +103,13 @@ class SVD_LLM(UVTemplate):
             use_bias=False
         else:
             use_bias=True
-
-        emp_cov_mat = config.covariance_matrix
-
+        
+        emp_cov_mat = config.covariance_matrix.to('cuda')
+        
         delta = utils.minimal_shift_to_pd(emp_cov_mat)
-        adj_cov_mat = emp_cov_mat + 1.2 * delta * torch.eye(emp_cov_mat.shape[0], device=device, dtype=emp_cov_mat.dtype)    
-
+        
+        adj_cov_mat = emp_cov_mat + 1.2 * delta * torch.eye(emp_cov_mat.shape[0], device='cuda', dtype=emp_cov_mat.dtype)    
+      
         try:
             S = torch.linalg.cholesky(adj_cov_mat)
         except RuntimeError as e:
@@ -117,8 +118,9 @@ class SVD_LLM(UVTemplate):
             S_inv = torch.linalg.inv(S)
         except RuntimeError as e:
             raise RuntimeError(f"S inverse failed for layer {config.layer_name}: {e}")
+        # print(adj_cov_mat.device, S.device)
+        W_transformed = weight.to('cuda') @ S
         
-        W_transformed = weight @ S
         U_new, V_new = utils.svd(W_transformed, config.rank)
         V_new = V_new @ S_inv
         instance = cls(teacher_layer.in_features, teacher_layer.out_features, config.rank, bias=use_bias)
