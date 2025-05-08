@@ -14,3 +14,4 @@ class LayerConfig(BaseModel):
     # key: Optional[str] = None
     # cov_dict_path: Optional[str] = None
     covariance_matrix: Optional[Any] = None
+

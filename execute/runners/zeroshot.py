@@ -10,18 +10,19 @@ from execute.setup.lib.eval import eval_ppl, eval_zero_shot
 from transformers import LlamaTokenizer
 from src.network.utils import save_model_params
 ############################################################################################
-DO_COMPRESS = False
-EVAL = True
-SAVE = True
+DO_COMPRESS = True
+EVAL = False
+SAVE = False
 ############################################################################################
 # BASE_MODEL_NAME = 'llama_2_13b'
-DATA_DIR = '/data/jemnlp'
-COMPRESSION_CONFIG = 'svd_llm_mistral_7b'
+DATA_DIR = '/data/jemnlp/alpaca'
+COMPRESSION_CONFIG = 'svd_llm_llama_2_13b'
 TEMP_DIR = DATA_DIR
 COMPRESSED_DIR = DATA_DIR
-model_name = "mistralai/Mistral-7B-v0.1"
-COV_NAME = 'mistral_7b_v01_wikitext'
-ratios = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4]
+# model_name = "mistralai/Mistral-7B-v0.1"
+model_name = "meta-llama/Llama-2-13b-hf"
+COV_NAME = 'llama_2_13b_alpaca'
+ratios = [0.9, 0.8, 0.7, 0.6, 0.5] #should repeat 90 mistral_wikitext
 for ratio in ratios:
     print('ratio:', ratio)
     ############################################################################################

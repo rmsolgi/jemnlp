@@ -107,7 +107,7 @@ class SVD_LLM(UVTemplate):
         emp_cov_mat = config.covariance_matrix
 
         delta = utils.minimal_shift_to_pd(emp_cov_mat)
-        adj_cov_mat = emp_cov_mat + 1.1 * delta * torch.eye(emp_cov_mat.shape[0], device=device, dtype=emp_cov_mat.dtype)    
+        adj_cov_mat = emp_cov_mat + 1.2 * delta * torch.eye(emp_cov_mat.shape[0], device=device, dtype=emp_cov_mat.dtype)    
 
         try:
             S = torch.linalg.cholesky(adj_cov_mat)
