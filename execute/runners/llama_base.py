@@ -44,7 +44,7 @@ print(model)
 ######################################################################################################
 
 bench = get_gen_bench(tokenizer, dataset_name)
-training_samples = bench.train_dataset.shuffle(seed=47).select(range(128))
+training_samples = bench.train_dataset.shuffle(seed=47).select(range(256))
 
 ######################################################################################################
 
