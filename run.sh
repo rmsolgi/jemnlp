@@ -26,6 +26,7 @@ else
 fi
 
 
-python -m execute.runners.zeroshot
+# python -m execute.runners.zeroshot
+python -m execute.runners.llama_base
 
 

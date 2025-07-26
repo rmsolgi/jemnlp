@@ -10,18 +10,18 @@ from execute.setup.lib.eval import eval_ppl, eval_zero_shot
 from transformers import LlamaTokenizer
 from src.network.utils import save_model_params
 ############################################################################################
-DO_COMPRESS = True
-EVAL = False
+DO_COMPRESS = False
+EVAL = True
 SAVE = False
 ############################################################################################
 # BASE_MODEL_NAME = 'llama_2_13b'
-DATA_DIR = '/data/jemnlp/test'
+DATA_DIR = '/data/jemnlp'
 COMPRESSION_CONFIG = 'svd_llm_llama_2_7b'
 TEMP_DIR = DATA_DIR
 COMPRESSED_DIR = DATA_DIR
 # model_name = "mistralai/Mistral-7B-v0.1"
 model_name = "meta-llama/Llama-2-7b-hf"
-COV_NAME = 'llama_2_7b_alpaca'
+COV_NAME = 'llama_2_7b_wikitext'
 ratios = [0.9] #[0.9, 0.8, 0.7, 0.6, 0.5] #should repeat 90 mistral_wikitext
 for ratio in ratios:
     print('ratio:', ratio)
@@ -61,7 +61,7 @@ for ratio in ratios:
     if EVAL: 
         new_model.half() 
         new_model = new_model.to("cuda")
-        new_model.seqlen = 4096
+        new_model.seqlen = 2048
         ppl_test = eval_ppl(new_model, tokenizer, new_model.device)
         print(f"wikitext perplexity {ppl_test}")
     if SAVE:
